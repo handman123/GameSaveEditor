@@ -53,7 +53,7 @@ public class UltimateUpgrades implements GameSaveComponent {
     public void saveToJson(JSONObject json) {
         JSONArray array = new JSONArray();
         entries.forEach(entry -> array.put(entry.isEnabled()));
-        json.put("advancedUpgrades", array);
+        json.put("ultimateUpgrades", array);
     }
 
     public List<UpgradeEntry> getEntries() {

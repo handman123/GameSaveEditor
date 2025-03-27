@@ -25,11 +25,11 @@ public class ConsoleUI {
 
     public boolean getBooleanInput(String prompt) {
         while (true) {
-            System.out.print(prompt + " (true/false) > ");
-            String input = scanner.nextLine().toLowerCase();
-            if (input.equals("true")) return true;
-            if (input.equals("false")) return false;
-            showError("请输入 true 或 false");
+            System.out.print(prompt + " (T/F) > ");
+            String input = scanner.nextLine();
+            if (input.equals("T")) return true;
+            if (input.equals("F")) return false;
+            showError("请输入 T 或 F");
         }
     }
 
@@ -43,8 +43,8 @@ public class ConsoleUI {
     public void showWelcomeMessage() {
         clearScreen();
         System.out.println(DIVIDER);
-        System.out.println("     植物大战僵尸2 存档编辑器");
-        System.out.println("     版本: 1.0 | By YourName");
+        System.out.println("     植物大战僵尸融合版本 存档编辑器");
+        System.out.println("            版本: 1.0");
         System.out.println(DIVIDER);
         pause(1000);
     }

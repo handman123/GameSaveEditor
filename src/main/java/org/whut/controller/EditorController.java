@@ -87,7 +87,7 @@ public class EditorController {
         AdvancedUpgrades upgrades = saveManager.getComponent(AdvancedUpgrades.class);
         List<UpgradeEntry> entries = upgrades.getEntries();
 
-        ui.showSectionTitle("修改弱究极词条");
+        ui.showSectionTitle("修改弱究极词条和buff");
         ui.displayEntries(entries);
 
         int id = ui.getIntInput("输入要修改的词条ID (0-" + (entries.size()-1) + ")");
@@ -108,7 +108,21 @@ public class EditorController {
      */
     private void modifyUltimateUpgrades() {
         UltimateUpgrades upgrades = saveManager.getComponent(UltimateUpgrades.class);
-        // ... 实现与modifyAdvancedUpgrades()类似 ...
+        List<UpgradeEntry> entries = upgrades.getEntries();
+
+        ui.showSectionTitle("修改强究极词条");
+        ui.displayEntries(entries);
+
+        int id = ui.getIntInput("输入要修改的词条ID (0-" + (entries.size()-1) + ")");
+        if (id < 0 || id >= entries.size()) {
+            ui.showError("无效ID");
+            return;
+        }
+        boolean newState = ui.getBooleanInput("设置新状态 (true=启用/false=禁用)");
+        upgrades.updateEntry(id, newState);
+        unsavedChanges = true;
+
+        ui.showSuccess("词条 " + entries.get(id).getName() + " 已修改为: " + newState);
     }
 
     /**
