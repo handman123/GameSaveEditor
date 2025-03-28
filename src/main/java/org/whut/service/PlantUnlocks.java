@@ -20,8 +20,9 @@ public class PlantUnlocks implements GameSaveComponent {
             "究极加农炮",      // 7
             "究极魅惑菇",      // 8
             "究极炮台",        // 9
-            "究极卷心菜",      // 10
-            "究极南瓜"         // 11
+            "究极高坚果",      // 10
+            "究极卷心菜",      // 11
+            "究极南瓜"         // 12
     };
 
     private final List<PlantUnlock> unlocks = new ArrayList<>();
