@@ -35,18 +35,31 @@ public class EditorController {
                 int choice = ui.getIntInput("请选择操作");
 
                 switch (choice) {
-                    case 1 -> showAllStatus();
-                    case 2 -> modifyAdvancedUpgrades();
-                    case 3 -> modifyUltimateUpgrades();
-                    case 4 -> modifyPlantUnlocks();
-                    case 5 -> saveChanges();
-                    case 6 -> {
+                    case 1:
+                        showAllStatus();
+                        break;
+                    case 2:
+                        modifyAdvancedUpgrades();
+                        break;
+                    case 3:
+                        modifyUltimateUpgrades();
+                        break;
+                    case 4:
+                        modifyPlantUnlocks();
+                        break;
+                    case 5:
+                        saveChanges();
+                        break;
+                    case 6:
                         if (checkUnsavedChanges()) {
                             break mainLoop;
                         }
-                    }
-                    case 7 -> showHelp();
-                    default -> ui.showError("无效选项，请输入1-7");
+                        break;
+                    case 7:
+                        showHelp();
+                        break;
+                    default:
+                        ui.showError("无效选项，请输入1-7");
                 }
             } catch (Exception e) {
                 handleException(e);

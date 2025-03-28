@@ -8,6 +8,7 @@ import org.whut.service.UltimateUpgrades;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class GameSaveManager {
 
@@ -35,10 +36,12 @@ public class GameSaveManager {
     }
 
     public <T extends GameSaveComponent> T getComponent(Class<T> type) {
-        return type.cast(components.stream()
-                .filter(type::isInstance)
-                .findFirst()
-                .orElseThrow());
+        for (GameSaveComponent component : components) {
+            if (type.isInstance(component)) {
+                return type.cast(component);
+            }
+        }
+        throw new NoSuchElementException(); // 或者自定义异常
     }
 
     public JSONObject getRawData() {

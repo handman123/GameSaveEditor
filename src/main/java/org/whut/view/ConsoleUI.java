@@ -142,7 +142,9 @@ public class ConsoleUI {
             }
         } catch (Exception e) {
             // 如果清屏失败，打印50个空行作为替代
-            System.out.println("\n".repeat(50));
+            for (int i = 0; i < 50; i++) {
+                System.out.println();
+            }
         }
     }
 
