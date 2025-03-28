@@ -1,8 +1,8 @@
 package org.whut.view;
 
+import org.fusesource.jansi.Ansi;
 import org.whut.model.PlantUnlock;
 import org.whut.model.UpgradeEntry;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,25 +65,39 @@ public class ConsoleUI {
     }
 
     public void displayEntries(List<UpgradeEntry> entries) {
-        System.out.println("\nID | 词条名称\t\t| 状态");
-        System.out.println("--------------------------------");
-        entries.forEach(entry ->
-                System.out.printf("%2d | %-16s | %s%n",
-                        entry.getId(),
-                        entry.getName(),
-                        entry.isEnabled() ? "✓ 已启用" : "✗ 未启用")
-        );
+        // 打印表头
+        System.out.println(Ansi.ansi().bold().a("\nID | 词条名称\t\t\t | 状态").reset());
+        System.out.println(dashes(36));
+
+        // 打印内容
+        entries.forEach(entry -> {
+            String paddedName = padToFixedWidth(entry.getName());
+            String status = entry.isEnabled()
+                    ? Ansi.ansi().fgGreen().a("已解锁").reset().toString()
+                    : Ansi.ansi().fgRed().a("未解锁").reset().toString();
+
+            System.out.printf("%2d | %s\t\t\t | %s%n",
+                    entry.getId(),
+                    paddedName,
+                    status);
+        });
     }
 
     public void displayPlantUnlocks(List<PlantUnlock> unlocks) {
-        System.out.println("\nID | 植物名称\t\t| 解锁状态");
-        System.out.println("--------------------------------");
-        unlocks.forEach(plant ->
-                System.out.printf("%2d | %-16s | %s%n",
-                        plant.getId(),
-                        plant.getName(),
-                        plant.isUnlocked() ? "✓ 已解锁" : "✗ 未解锁")
-        );
+        // 打印表头
+        System.out.println("\nID | 植物名称\t\t\t | 解锁状态");
+        System.out.println(dashes(36));
+
+        // 打印内容
+        unlocks.forEach(plant -> {
+            String status = plant.isUnlocked() ?
+                    Ansi.ansi().fgGreen().a("已解锁").reset().toString() :
+                    Ansi.ansi().fgRed().a("未解锁").reset().toString();
+            System.out.printf("%2d | %s\t\t\t | %s%n",
+                    plant.getId(),
+                    plant.getName(),
+                    status);
+        });
     }
 
     public void showSectionTitle(String title) {
@@ -163,5 +177,32 @@ public class ConsoleUI {
         System.out.println("     再见！");
         System.out.println(DIVIDER);
         pause(1500);
+    }
+
+    // 计算字符串的显示宽度（中文算2，英文算1）
+    private int calculateDisplayWidth(String str) {
+        return str.chars()
+                .map(c -> c > 127 ? 1 : 1)
+                .sum();
+    }
+
+    // 将字符串填充到固定显示宽度
+    private String padToFixedWidth(String str) {
+        int targetWidth = 6;
+        int currentWidth = calculateDisplayWidth(str);
+        if (currentWidth >= targetWidth) {
+            return str;
+        }
+        return str + spaces(targetWidth - currentWidth);
+    }
+
+    // 生成指定数量的空格 (替代String.repeat)
+    private String spaces(int count) {
+        return new String(new char[count]).replace('\0', ' ');
+    }
+
+    // 生成指定数量的横线
+    private String dashes(int count) {
+        return new String(new char[count]).replace('\0', '-');
     }
 }
